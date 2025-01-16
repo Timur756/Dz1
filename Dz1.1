@@ -38,17 +38,17 @@ string pow_minus(int n) {
 }
 int main() {
 	setlocale(LC_ALL, "Russian");
-	int n; // Переменная для хранения степени n	
-	int exi = 2;// Переменная для управления циклом
+	double n; // Переменная для хранения степени n
+	double exi = 2;// Переменная для управления циклом
 	while (exi != 1) { //меню
 		cout << "Вычисление 2 ^ n - 1, n > 40." << endl << "Введите степень n, (n>40): ";
 		while (true) {//проверка корректности ввода
 			cin >> n;
-			if (cin.fail()) {
+			if (cin.fail() or (int)n != n) {
 				cin.clear();
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				cout << "Введеное значение неверно, введите n > 40." << endl;
-				continue;	
+				continue;
 			}
 			if (n > 40) {
 				cout << pow_minus(n) << endl;	// Вывод результата 2^n - 1	
@@ -61,7 +61,7 @@ int main() {
 		cout << "Введите: 1- выйти; 2 - запустить еще раз." << endl;// Проверка на продолжение работы программы
 		while (true) {//проверка корректности ввода.
 			cin >> exi;
-			if (cin.fail()) {
+			if (cin.fail() or (int)exi != exi) {
 				cin.clear();
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				cout << "Введеное значение неверно. Введите: 1- выйти; 2 - запустить еще раз." << endl;
