@@ -1,1 +1,78 @@
-Qwert
+#include <iostream>
+#include <string>
+#include <limits>
+using namespace std;
+void mult(string& itog) { // Функция для умножения числа (представленного в виде строки) на 2
+	string rever = ""; // Данная строка будет содержать результат умножения
+	int razr = 0; // Переменная для хранения разряда
+	// Проходим по каждой цифре числа с конца к началу
+	for (int i = itog.length() - 1; i >= 0; i--) {
+		// Умножаем текущую цифру на 2 и добавляем разряд
+		rever = to_string(((itog[i] - '0') * 2) % 10 + razr) + rever;// Последняя цифра результата 
+		razr = ((itog[i] - '0') * 2) / 10;// Обновляем разряд для следующей итерации
+	}
+	// Если после последнего умножения остался разряд, добавляем его к результату
+	if (razr != 0)
+		rever = to_string(razr) + rever;
+	itog = rever;//итоговый результат 
+}
+// Функция для вычисления 2^n - 1
+string pow_minus(int n) {
+	string result = "1";// Начальное значение 2^0
+	for (int i = 0; i < n; i++) {
+		// Умножаем результат на 2 n раз
+		mult(result);
+	}
+	// Вычитаем 1 из результата
+	for (int i = result.length() - 1; i >= 0; i--) {//проходим по числу с конца
+		if (result[i] == '0')// Если встречаем 0, заменяем его на 9
+			result[i] = '9';
+		else {// Если не 0, уменьшаем текущую цифру на 1 и выходим из цикла
+			result[i] = (result[i] - 1);
+			break;
+		}
+	}
+	if (result[0] == '0' and result.length() != 1)// Убираем ведущие нули, если они есть
+		result.erase(0, 1);
+	return result; // Возвращаем результат 2^n - 1
+}
+int main() {
+	setlocale(LC_ALL, "Russian");
+	int n; // Переменная для хранения степени n	
+	int exi = 2;// Переменная для управления циклом
+	while (exi != 1) { //меню
+		cout << "Вычисление 2 ^ n - 1, n > 40." << endl << "Введите степень n, (n>40): ";
+		while (true) {//проверка корректности ввода
+			cin >> n;
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << "Введеное значение неверно, введите n > 40." << endl;
+				continue;	
+			}
+			if (n > 40) {
+				cout << pow_minus(n) << endl;	// Вывод результата 2^n - 1	
+				break;
+			}
+			else {
+				cout << "Введеное значение неверно, введите n > 40." << endl;
+			}
+		}
+		cout << "Введите: 1- выйти; 2 - запустить еще раз." << endl;// Проверка на продолжение работы программы
+		while (true) {//проверка корректности ввода.
+			cin >> exi;
+			if (cin.fail()) {
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << "Введеное значение неверно. Введите: 1- выйти; 2 - запустить еще раз." << endl;
+				continue;
+			}
+			if (exi == 1 or exi == 2)
+				break;
+			else
+				cout << "Введеное значение неверно. Введите: 1- выйти; 2 - запустить еще раз." << endl;
+		}
+	}
+	cout << "end" << endl;// Конечный вывод
+	return 0;
+}
